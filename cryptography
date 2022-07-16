@@ -1,0 +1,25 @@
+#Class for Encrypt and Decrypt using AES Cryptography
+
+
+from Crypto.Cipher import AES
+import random, string, base64
+
+
+class Cryptography:
+
+    # Create Key
+    def Create_key(self):
+        return ''.join(random.choice(string.ascii_uppercase + string.ascii_lowercase + string.digits) for x in range(32))
+
+    # Create Init Vector
+    def Create_IV(self):
+        return ''.join(random.choice(string.ascii_uppercase + string.ascii_lowercase + string.digits) for x in range(16))
+
+    def Encrypt(self, key, iv, text_plane):
+        enc_s = AES.new(key, AES.MODE_CFB, iv)
+        cipher_text = enc_s.encrypt(text_plane)
+        return base64.b64encode(cipher_text).decode("utf-8")
+
+    def Decrypt(self, key, iv, encoded_message):
+        decryption_suite = AES.new(key, AES.MODE_CFB, iv)
+        return decryption_suite.decrypt(base64.b64decode(encoded_message))
